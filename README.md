@@ -1,5 +1,3 @@
-# Contenu du README.md pour le jeu de labyrinthe
-readme_content_labyrinth = """
 # Labyrinthe - Jeu
 
 ## Description
