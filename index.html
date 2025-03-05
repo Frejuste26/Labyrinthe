@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Jeu de labyrinthe interactif - Trouvez la sortie en utilisant les touches directionnelles">
+  <meta name="theme-color" content="#ffffff">
+  <title>Jeu de Labyrinthe</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto+Mono&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <div id="popup-container"></div>
+
+  <div id="welcome-screen" class="welcome-screen">
+    <div class="title-container">
+      <h1 class="game-title">Labyrinthe</h1>
+      <div class="title-decoration"></div>
+    </div>
+
+    <div class="menu-container">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="main">Menu Principal</button>
+        <button class="tab-btn" data-tab="scores">Scores</button>
+        <button class="tab-btn" data-tab="achievements">Succès</button>
+        <button class="tab-btn" data-tab="stats">Statistiques</button>
+      </div>
+
+      <div id="main-tab" class="tab-content active">
+        <div class="scores-panel">
+          <h2>Meilleurs Scores</h2>
+          <div class="score-list">
+            <div class="score-item">
+              <span>🏆 Record:</span>
+              <span id="highScore">0</span>
+            </div>
+            <div class="score-item">
+              <span>🎮 Dernière partie:</span>
+              <span id="lastScore">0</span>
+            </div>
+            <div class="score-item">
+              <span>📊 Moyen:</span>
+              <span id="averageScore">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-selector">
+          <h2>Sélection du niveau</h2>
+          <div class="level-buttons">
+            <button class="level-btn" data-level="1" data-difficulty="beginner">
+              <i class="fas fa-star-half-alt"></i>
+              <span>Beginner</span>
+            </button>
+            <button class="level-btn" data-level="2" data-difficulty="normal">
+              <i class="fas fa-star"></i>
+              <span>Normal</span>
+            </button>
+            <button class="level-btn" data-level="3" data-difficulty="intermediate">
+              <i class="fas fa-certificate"></i>
+              <span>Intermediate</span>
+            </button>
+            <button class="level-btn" data-level="4" data-difficulty="advanced">
+              <i class="fas fa-medal"></i>
+              <span>Advanced</span>
+            </button>
+            <button class="level-btn" data-level="5" data-difficulty="professional">
+              <i class="fas fa-award"></i>
+              <span>Professional</span>
+            </button>
+            <button class="level-btn" data-level="6" data-difficulty="master">
+              <i class="fas fa-crown"></i>
+              <span>Master</span>
+            </button>
+            <button class="level-btn" data-level="7" data-difficulty="expert">
+              <i class="fas fa-dragon"></i>
+              <span>Expert</span>
+            </button>
+            <button class="level-btn" data-level="8" data-difficulty="legend">
+              <i class="fas fa-hat-wizard"></i>
+              <span>Legend</span>
+            </button>
+            <button class="level-btn" data-level="9" data-difficulty="god">
+              <i class="fas fa-dice-d20"></i>
+              <span>God</span>
+            </button>
+          </div>
+        </div>
+
+        <button id="startGameBtn" class="start-game-btn">Commencer</button>
+      </div>
+
+      <div id="scores-tab" class="tab-content">
+        <h2>Tableau des Scores</h2>
+        <div class="scores-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Rang</th>
+                <th>Score</th>
+                <th>Niveau</th>
+                <th>Temps</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="scoresTableBody">
+              <!-- Rempli dynamiquement -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="achievements-tab" class="tab-content">
+        <h2>Succès</h2>
+        <div class="achievements-grid" id="achievementsGrid">
+          <!-- Rempli dynamiquement -->
+        </div>
+      </div>
+
+      <div id="stats-tab" class="tab-content">
+        <h2>Statistiques de Jeu</h2>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <i class="fas fa-trophy"></i>
+            <h3>Parties Jouées</h3>
+            <p id="gamesPlayed">0</p>
+          </div>
+          <div class="stat-item">
+            <i class="fas fa-stopwatch"></i>
+            <h3>Temps Total</h3>
+            <p id="totalTime">00:00:00</p>
+          </div>
+          <div class="stat-item">
+            <i class="fas fa-star"></i>
+            <h3>Power-ups Collectés</h3>
+            <p id="powerupsCollected">0</p>
+          </div>
+          <div class="stat-item">
+            <i class="fas fa-skull"></i>
+            <h3>Pièges Touchés</h3>
+            <p id="trapsHit">0</p>
+          </div>
+        </div>
+        <div class="level-stats">
+          <h3>Progression par Niveau</h3>
+          <div class="level-progress" id="levelProgress">
+            <!-- Rempli dynamiquement -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="game-screen" class="game-screen hidden">
+    <header>
+      <button id="themeToggle" class="theme-toggle">
+        <i class="fas fa-moon"></i>
+      </button>
+    </header>
+    
+    <main>
+      <div class="game-container">
+        <div class="game-info">
+          <p><i class="fas fa-keyboard"></i> Utilisez les touches directionnelles pour trouver la sortie du labyrinthe.</p>
+          <div class="controls">
+            <p><i class="fas fa-star"></i> Score: <span id="score">0</span></p>
+            <p><i class="fas fa-clock"></i> Temps: <span id="timer">00:00</span></p>
+            <p><i class="fas fa-heart"></i> Vies: <span id="lives">❤️❤️❤️</span></p>
+          </div>
+        </div>
+        
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
+        
+        <div class="buttons">
+          <button id="startBtn" class="btn">Démarrer</button>
+          <button id="resetBtn" class="btn">Recommencer</button>
+          <button id="levelBtn" class="btn">Niveau suivant</button>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
